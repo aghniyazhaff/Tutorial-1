@@ -15,7 +15,6 @@ from django.urls import reverse
 # Create your views here.
 
 @login_required(login_url='/wishlist/login/')
-
 def show_wishlist(request):
 
     data_barang_wishlist = BarangWishlist.objects.all()
