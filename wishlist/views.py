@@ -25,6 +25,16 @@ def show_wishlist(request):
     }
     return render(request, "wishlist.html", context)
 
+def show_wishlist_ajax(request):
+    data_barang_wishlist = BarangWishlist.objects.all()
+    context = {
+        'list_barang': data_barang_wishlist,
+        'nama': 'Aghniya Zhafira',
+        'last_login': request.COOKIES['last_login'],
+    }
+    return render(request, "wishlist_ajax.html",context)
+
+
 def show_xml(request):
     data = BarangWishlist.objects.all()
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
@@ -64,7 +74,7 @@ def login_user(request):
             response = HttpResponseRedirect(reverse("wishlist:show_wishlist")) # membuat response
             response.set_cookie('last_login', str(datetime.datetime.now())) # membuat cookie last_login dan menambahkannya ke dalam response
             return response
-            # return redirect('wishlist:show_wishlist')
+            return redirect('wishlist:show_wishlist')
         else:
             messages.info(request, 'Username atau Password salah!')
     context = {}
@@ -75,4 +85,3 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('wishlist:login'))
     response.delete_cookie('last_login')
     return response
-
